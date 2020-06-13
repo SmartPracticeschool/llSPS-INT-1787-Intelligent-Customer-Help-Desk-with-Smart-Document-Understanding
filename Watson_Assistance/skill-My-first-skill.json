@@ -1,0 +1,640 @@
+{
+  "intents": [
+    {
+      "intent": "Hours",
+      "examples": [
+        {
+          "text": "What are the hours of meeting?"
+        },
+        {
+          "text": "Which days are this Opens?"
+        },
+        {
+          "text": "What time it Opens?"
+        },
+        {
+          "text": "What are the Timings?"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Locations",
+      "examples": [
+        {
+          "text": "Where is the Hospital?"
+        },
+        {
+          "text": "What are the direction to the Government Office?"
+        },
+        {
+          "text": "Where is the IBM Office located?"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Thanks",
+      "examples": [
+        {
+          "text": "Thank you"
+        },
+        {
+          "text": "Thanks"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Book_Appointment",
+      "examples": [
+        {
+          "text": "I want to book my appointment at 4:00 at IBM office"
+        },
+        {
+          "text": "I want an appointment with Psychiatrist."
+        },
+        {
+          "text": "I want an appointment with the Officials"
+        },
+        {
+          "text": "I want an appointment with the Chief Executive."
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "device_operation",
+      "examples": [
+        {
+          "text": "My device is not operating properly"
+        },
+        {
+          "text": "How to setup wifi?"
+        },
+        {
+          "text": "How to config wifi?"
+        },
+        {
+          "text": "How to use the device?"
+        },
+        {
+          "text": "My device is not turning on"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Greetings",
+      "examples": [
+        {
+          "text": "Hi"
+        },
+        {
+          "text": "Good Afternoon"
+        },
+        {
+          "text": "Good Evening"
+        },
+        {
+          "text": "Good Morning"
+        },
+        {
+          "text": "Hello"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "Appointments",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Booking",
+          "synonyms": [
+            "time",
+            "Day"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Office",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Employees",
+          "synonyms": [
+            "workers",
+            "staff",
+            "people",
+            "executives",
+            "managers"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "IBM Office",
+          "synonyms": [
+            "Office ",
+            "Workspace"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Medical",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Doctors",
+          "synonyms": [
+            "Psychiatrist",
+            "psychologist",
+            "therapist",
+            "neurologist",
+            "pediatrician",
+            "orthopedist",
+            "cardiologist"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Hospital",
+          "synonyms": [
+            "Health Centre",
+            "Clinic",
+            "First-Aid"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Government",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Officer",
+          "synonyms": [
+            "supervisor",
+            "administrator",
+            "staff",
+            "manager"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Government Office",
+          "synonyms": [
+            "Ministry",
+            "Consular Office"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-time",
+      "values": [],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "webhooks": [
+    {
+      "url": "https://eu-gb.functions.cloud.ibm.com/api/v1/web/vishv.pce17%40sot.pdpu.ac.in_dev/default/first_assistance.json",
+      "name": "main_webhook",
+      "headers": []
+    }
+  ],
+  "dialog_nodes": [
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "I didn't understand. You can try rephrasing."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_10_1592039986222",
+      "conditions": "anything_else",
+      "dialog_node": "response_3_1592040065317",
+      "previous_sibling": "response_6_1592040062639"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "\"<?$webhook_result_1?>\""
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_10_1592039986222",
+      "conditions": "$webhook_result_1",
+      "dialog_node": "response_6_1592040062639"
+    },
+    {
+      "type": "standard",
+      "title": "Government Hours",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The Government Offices are opened every Monday, Tuesday, Wednesday, Thursday, and Friday from 9:00 am - 6:00 pm all over the Country. The Government Offices are Closed on Saturday and Sundays. And they are closed on Public Holidays."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1591640965557",
+      "conditions": "@Government",
+      "dialog_node": "node_9_1591674708859",
+      "previous_sibling": "node_4_1591642289227"
+    },
+    {
+      "type": "standard",
+      "title": "IBM Office Hours",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The IBM office is open every Monday, Tuesday, Wednesday, Thursday, and Friday from 9:00 am - 5:00 pm. The Office is also open every Saturday from 9:00 am - 1:00 pm. And the office is closed every Sunday."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1591640965557",
+      "conditions": "@Office",
+      "dialog_node": "node_4_1591642289227",
+      "previous_sibling": "node_10_1591674589874"
+    },
+    {
+      "type": "standard",
+      "title": "Anything Else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": " If you are not getting the desired output you can contact us and speak with Real Person for your queries."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1591640965557",
+      "conditions": "anything_else",
+      "dialog_node": "node_3_1591678917284",
+      "previous_sibling": "node_9_1591674708859"
+    },
+    {
+      "type": "standard",
+      "title": "Hospital Hours",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The Hospital is opened 24*7 throughout the year."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_4_1591640965557",
+      "conditions": "@Medical",
+      "dialog_node": "node_10_1591674589874"
+    },
+    {
+      "type": "standard",
+      "title": "Government Direction",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The North Castle Town Clerk is at 15 Bedford Rd, Armonk, NY 10504, United States."
+              },
+              {
+                "text": "New York\nHead southeast on Steve Flanders Square toward Centre St\nRestricted usage road\n197 ft\nTurn right onto Park Row\n115 ft\nTurn left onto Spruce St\n0.2 mi\nTurn left onto Gold St\n115 ft\nTurn right onto Frankfort St\n0.2 mi\nTurn left onto Pearl St\n30 ft\nTake the FDR Drive N ramp\n0.5 mi\nMerge with FDR Dr\n7.7 mi\nTake exit 17 on the left for Toll Bridge toward I-278/Bruckner Expy/Grand Central Pkwy\nToll road\n0.4 mi\nContinue onto Robert F. Kennedy Bridge\nToll road\n0.3 mi\nTake the I-278 E exit on the left toward I-87 N/Bronx\nToll road\n240 ft\nKeep right and merge onto I-278 E\nToll road\n0.7 mi\nTake the exit toward I-278 E/Bruckner Expy\n226 ft\nAt the flyover Interstate 278, keep left and follow signs for Bruckner Expy/New Haven\n0.3 mi\nContinue onto I-278 E/Bruckner Expy\n4.5 mi\nMerge with I-95 N/Bruckner Expy\n2.0 mi\nKeep left to stay on I-95 N\n0.5 mi\nTake exit 9 for Hutchinson Pkwy N\n377 ft\nKeep left, follow signs for Hutchinson River Pkwy N and merge onto Hutchinson River Pkwy N\n2.1 mi\nKeep left to stay on Hutchinson River Pkwy N\n11.6 mi\nKeep left at the Y junction to continue on I-684 N, follow signs for Brewster\nPassing through Connecticut\nEntering New York\n7.9 mi\nTake exit 3S to merge with NY-22 S/Armonk Bedford Rd/Bedford Rd toward Armonk\n0.2 mi\nMerge with NY-22 S/Armonk Bedford Rd/Bedford Rd\nContinue to follow NY-22 S/Armonk Bedford Rd\n0.4 mi\nTurn right onto Maple Ave\n0.1 mi\nTurn left at the 1st cross street onto Bedford Rd\n486 ft\nTurn left\nDestination will be on the right"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_3_1591672863621",
+      "conditions": "@Government",
+      "dialog_node": "node_9_1591673935438",
+      "previous_sibling": "node_4_1591673239914"
+    },
+    {
+      "type": "standard",
+      "title": "Anything Else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": " If you are not getting the desired output you can contact us and speak with Real Person for your queries."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_3_1591672863621",
+      "conditions": "anything_else",
+      "dialog_node": "node_7_1591678857460",
+      "previous_sibling": "node_9_1591673935438"
+    },
+    {
+      "type": "standard",
+      "title": "IBM Office Direction",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The IBM Headquarters is located at Armonk, New York."
+              },
+              {
+                "text": "New York\nHead southeast on Steve Flanders Square toward Centre St\nRestricted usage road\n197 ft\nTurn right onto Park Row\n115 ft\nTurn left onto Spruce St\n0.2 mi\nTurn left onto Gold St\n115 ft\nTurn right onto Frankfort St\n0.2 mi\nTurn left onto Pearl St\n30 ft\nTake the FDR Drive N ramp\n0.5 mi\nMerge with FDR Dr\n7.7 mi\nKeep right to continue on Harlem River Dr\n0.1 mi\nKeep left to stay on Harlem River Dr\n2.8 mi\nTake exit 24 on the left for I-95 S/George Washington Bridge/Amsterdam Ave toward W 179 St\n0.5 mi\nKeep right, follow signs for Geo Washington Bridge/I-95 S\n0.1 mi\nKeep right at the Y junction, follow signs for Henry Hudson Parkway/George Washington Bridge Lower Level and merge with Interstate 95 Lower Level S/Trans-Manhattan Expy/U.S. 1 Lower Level S\n0.4 mi\nTake exit 1 for NY-9A S\n0.5 mi\nKeep right, follow signs for State Hwy 9A/Henry Hudson Pkwy/Riverside Dr\n0.1 mi\nKeep left, follow signs for Pkwy N/Upstate/NY-9A N and merge onto NY-9A N/State Hwy 9A N/Henry Hudson Pkwy\nToll road\n4.9 mi\nContinue onto Henry Hudson Pkwy\n1.0 mi\nContinue onto Saw Mill River Pkwy N\n1.6 mi\nTake exit 4 for Cross County Pkwy toward Hutchinson Pkwy\n0.2 mi\nContinue onto Cross County Pkwy\n4.5 mi\nMerge with Hutchinson River Pkwy N\n8.0 mi\nKeep left at the Y junction to continue on I-684 N, follow signs for Brewster\nPassing through Connecticut\nEntering New York\n7.9 mi\nTake exit 3S to merge with NY-22 S/Armonk Bedford Rd/Bedford Rd toward Armonk\n0.2 mi\nMerge with NY-22 S/Armonk Bedford Rd/Bedford Rd\nContinue to follow NY-22 S/Armonk Bedford Rd\n0.7 mi\nTurn right onto Main St/Old Rte 22\nContinue to follow Main St\n0.4 mi\nArmonk, New York 10504, USA"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_3_1591672863621",
+      "conditions": "@Office",
+      "dialog_node": "node_4_1591673239914",
+      "previous_sibling": "node_9_1591672991721"
+    },
+    {
+      "type": "standard",
+      "title": "Hospital Direction",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The White Plains Hospital Medical & Wellness is located at 99 Business Park Dr, Armonk, NY 10504, United States."
+              },
+              {
+                "text": "New York\nHead southeast on Steve Flanders Square toward Centre St\nRestricted usage road           197 ft\nTurn right onto Park Row        115 ft\nTurn left onto Spruce St       0.2 mi\nTurn left onto Gold St              115 ft\nTurn right onto Frankfort St          0.2 mi\nTurn left onto Pearl St          30 ft\nTake the FDR Drive N ramp          0.5 mi\nMerge with FDR Dr       7.7 mi\nKeep right to continue on Harlem River Dr         0.1 mi\nTake exit 18 for Willis Avenue Bridge toward Interstate 87/Deegan Expressway         0.3 mi\nMerge with Willis Ave Bridge        0.2 mi\nTake the Maj Deegan Expwy ramp on the left to Albany         0.3 mi\nMerge with I-87 N        0.3 mi\nKeep left to stay on I-87 N               9.4 mi\nTake exit 4 toward Cross County Pkwy E           456 ft\nMerge with Central Park Ave          0.1 mi\nTake the Cross County Pkwy E ramp            404 ft\nKeep left at the Y junction, follow signs for Hutchinson Pkwy and merge with Cross County Pkwy                 3.3 mi\nMerge with Hutchinson River Pkwy N\n8.0 mi\nKeep left at the Y junction to continue on I-684 N, follow signs for Brewster\nPassing through Connecticut\nEntering New York          7.9 mi\nTake exit 3S to merge with NY-22 S/Armonk Bedford Rd/Bedford Rd toward Armonk      0.2 mi\nMerge with NY-22 S/Armonk Bedford Rd/Bedford Rd\nContinue to follow NY-22 S/Armonk Bedford Rd          0.4 mi\nTurn left onto Business Park Dr         0.1 mi\nTurn right onto Old Orchard Rd\nDestination will be on the left"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_3_1591672863621",
+      "conditions": "@Medical",
+      "dialog_node": "node_9_1591672991721"
+    },
+    {
+      "type": "standard",
+      "title": "Booking",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Your Appointment is booked with schedule time and the Official to whom you want to meet. And the Confirmation Mail will be sent to you soon."
+              },
+              {
+                "text": "Your Appointment has been booked. Thank you."
+              },
+              {
+                "text": "Your Appointment on the schedule you gave is been on the waiting list. If you want to change then, please change the time or day for your Appointment."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_9_1591675794259",
+      "conditions": "@Appointments",
+      "dialog_node": "node_3_1591676553737"
+    },
+    {
+      "type": "standard",
+      "title": "Hours",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_10_1591674589874"
+      },
+      "conditions": "#Hours",
+      "dialog_node": "node_4_1591640965557",
+      "previous_sibling": "node_10_1592039986222"
+    },
+    {
+      "type": "standard",
+      "title": "Greetings",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Hi there! I'm here to help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#Greetings",
+      "dialog_node": "node_10_1591640248882",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "standard",
+      "title": "Appointments",
+      "output": {
+        "generic": []
+      },
+      "conditions": "#Book_Appointment",
+      "dialog_node": "node_9_1591675794259",
+      "previous_sibling": "node_4_1591640965557"
+    },
+    {
+      "type": "standard",
+      "title": "Device_Information",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "input": "<?input_text?>"
+          },
+          "result_variable": "webhook_result_1"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#device_operation",
+      "dialog_node": "node_10_1592039986222",
+      "previous_sibling": "node_10_1591640248882"
+    },
+    {
+      "type": "standard",
+      "title": "Anything else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I didn't understand. You can try rephrasing."
+              },
+              {
+                "text": " If you are not getting the desired output you can contact us and speak with Real Person for your queries."
+              },
+              {
+                "text": "Can you reword your statement? I'm not understanding."
+              },
+              {
+                "text": "I didn't get your meaning."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Anything else",
+      "previous_sibling": "node_4_1591640584331",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "standard",
+      "title": "Thank you",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Glad to help!"
+              },
+              {
+                "text": "You're welcome!"
+              },
+              {
+                "text": "Anytime!"
+              },
+              {
+                "text": "My pleasure."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#Thanks",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_4_1591640584331",
+      "previous_sibling": "node_3_1591672863621"
+    },
+    {
+      "type": "standard",
+      "title": "Directions",
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_9_1591672991721"
+      },
+      "conditions": "#Locations",
+      "dialog_node": "node_3_1591672863621",
+      "previous_sibling": "node_9_1591675794259"
+    },
+    {
+      "type": "standard",
+      "title": "Welcome",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Hello. My name is Miko. I am your Assistant?"
+              },
+              {
+                "text": "Hello. How can I Help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "off_topic": {
+      "enabled": true
+    },
+    "disambiguation": {
+      "prompt": "Did you mean:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "None of the above"
+    },
+    "system_entities": {
+      "enabled": true
+    },
+    "human_agent_assist": {
+      "prompt": "Did you mean:"
+    },
+    "spelling_auto_correct": true
+  },
+  "learning_opt_out": false,
+  "name": "My first skill",
+  "language": "en",
+  "description": ""
+}
