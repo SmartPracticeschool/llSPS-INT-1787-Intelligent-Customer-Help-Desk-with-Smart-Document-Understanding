@@ -1,0 +1,181 @@
+[
+    {
+        "id": "c9d759bf.756d88",
+        "type": "tab",
+        "label": "Watson Assisstant",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "5c561c2d.59b754",
+        "type": "watson-conversation-v1",
+        "z": "c9d759bf.756d88",
+        "name": "Assisstant",
+        "workspaceid": "f6ea5498-fdf5-4bcd-9566-f627c06a53fe",
+        "multiuser": false,
+        "context": false,
+        "empty-payload": false,
+        "service-endpoint": "https://api.eu-gb.assistant.watson.cloud.ibm.com/instances/70a61e3c-c548-465e-9cab-8e38bac4e52e",
+        "timeout": "",
+        "optout-learning": false,
+        "x": 375,
+        "y": 180,
+        "wires": [
+            [
+                "f6898694.723348",
+                "b30b28bd.d30798"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "a82f3762.1f7d38",
+        "type": "function",
+        "z": "c9d759bf.756d88",
+        "name": "F1",
+        "func": "msg.payload = msg.payload.text; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 255,
+        "y": 260,
+        "wires": [
+            [
+                "5c561c2d.59b754",
+                "749d912d.9911"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "1492b1c2.c32e7e",
+        "type": "ui_form",
+        "z": "c9d759bf.756d88",
+        "name": "",
+        "label": "form",
+        "group": "e97ce86.7658f18",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Enter the input",
+                "value": "text",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "text": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "",
+        "x": 95,
+        "y": 280,
+        "wires": [
+            [
+                "a82f3762.1f7d38"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "f6898694.723348",
+        "type": "function",
+        "z": "c9d759bf.756d88",
+        "name": "F2",
+        "func": "var message = \"\";\n\nif(msg.payload.intents[0].intent == \"device_operation\"){\n    for(var i in msg.payload.context.webhook_result_1.passages){\n        message = message + msg.payload.context.webhook_result_1.passages[i].passage_text + \"\\n\";\n    }\n\n    msg.payload = message;\n}\n\nelse\nmsg.payload=msg.payload.output.text[0];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 515,
+        "y": 240,
+        "wires": [
+            [
+                "9955c636.e9cb68",
+                "5c9f34f5.a0326c"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "749d912d.9911",
+        "type": "ui_text",
+        "z": "c9d759bf.756d88",
+        "group": "e97ce86.7658f18",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "You",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "x": 395,
+        "y": 360,
+        "wires": [],
+        "l": false
+    },
+    {
+        "id": "9955c636.e9cb68",
+        "type": "ui_text",
+        "z": "c9d759bf.756d88",
+        "group": "e97ce86.7658f18",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "bot",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 670,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b30b28bd.d30798",
+        "type": "debug",
+        "z": "c9d759bf.756d88",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 540,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "5c9f34f5.a0326c",
+        "type": "ui_audio",
+        "z": "c9d759bf.756d88",
+        "name": "",
+        "group": "e97ce86.7658f18",
+        "voice": "",
+        "always": "",
+        "x": 720,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "e97ce86.7658f18",
+        "type": "ui_group",
+        "z": "",
+        "name": "CHATBOT",
+        "tab": "449af108.6f704",
+        "order": 1,
+        "disp": true,
+        "width": 13,
+        "collapse": false
+    },
+    {
+        "id": "449af108.6f704",
+        "type": "ui_tab",
+        "z": "",
+        "name": "CUSTOMERCARE",
+        "icon": "",
+        "disabled": false,
+        "hidden": false
+    }
+]
